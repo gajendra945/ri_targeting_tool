@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import ProtectedRoute from '../../../common/components/auth/ProtectedRoute.jsx'
+import '../styles/global.css'
 import Home from '../pages/Home.jsx'
 import NotFound from '../pages/NotFound.jsx'
 

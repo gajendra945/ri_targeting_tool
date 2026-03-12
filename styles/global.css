@@ -1,1 +1,50 @@
-/* Global styles for the RI Targeting Tool product. */
+.ri-notfound-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eff1f5;
+  padding: 24px;
+}
+
+.ri-notfound-card {
+  width: 100%;
+  max-width: 460px;
+  border: 1px solid #d4d8e0;
+  border-radius: 12px;
+  background: #fff;
+  padding: 24px;
+  text-align: center;
+}
+
+.ri-notfound-code {
+  margin: 0;
+  font-size: 58px;
+  font-weight: 700;
+  color: #173f6f;
+}
+
+.ri-notfound-text {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: #576071;
+}
+
+.ri-notfound-btn {
+  margin-top: 18px;
+  display: inline-flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #14539a;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+}
+
+.ri-notfound-btn:hover {
+  background: #104680;
+}
