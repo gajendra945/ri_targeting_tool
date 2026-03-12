@@ -1,15 +1,6 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
-export interface RiTargetingToolFilters {
-  n2pReturn: string
-  market: string
-  state: string
-  ivlGrpSnp: string
-  contract: string
-  pbp: string
-}
-
-const initialState: RiTargetingToolFilters = {
+const initialState = {
   n2pReturn: 'All',
   market: 'National',
   state: 'All',
@@ -22,7 +13,7 @@ const filtersSlice = createSlice({
   name: 'riTargetingToolFilters',
   initialState,
   reducers: {
-    setRiTargetingToolFilters: (_, action: PayloadAction<RiTargetingToolFilters>) => action.payload,
+    setRiTargetingToolFilters: (_, action) => action.payload,
     resetRiTargetingToolFilters: () => initialState,
   },
 })

@@ -1,13 +1,7 @@
 import { Link } from 'react-router-dom'
 import { riTargetingToolRoutes } from '../routes/constants'
 
-type PortalProduct = {
-  name: string
-  description: string
-  openTo: string
-}
-
-const portalProducts: PortalProduct[] = [
+const portalProducts = [
   {
     name: 'EMO365-Medicare',
     description: 'EMO365-Medicare - Closed Loop Product',
