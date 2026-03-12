@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MainPageLayout } from '../component/main-page-layout'
 import '../styles/ri_targeting_tool/home.css'
 
@@ -26,93 +26,170 @@ const NoteIcon = () => (
 )
 
 const summaryMetrics = [
-  { label: 'YTD suppressions', value: '600K', tone: 'blue' },
-  { label: 'Currently saved lives', value: '339k', tone: 'neutral' },
-  { label: 'YTD identified suppressions', value: '42k', tone: 'neutral' },
-  { label: 'YTD gross NDC capture', value: '4%', tone: 'green' },
-  { label: 'YTD value per supprn issue', value: '$170', tone: 'green' },
-  { label: 'Estimated EOY Gross NDC (value)', value: '$9M', tone: 'orange' },
+  { id: 'ytd-suppr', label: 'YTD\nsuppressions', value: '600k', tone: 'blue' },
+  { id: 'current-suppr', label: 'Currently\nsuppressed', value: '339k', tone: 'neutral' },
+  { id: 'saved-visits', label: 'YTD estimated\nsaved visits', value: '42k', tone: 'neutral' },
+  { id: 'hcc-capture', label: 'YTD gross\nHCC capture', value: '14%', tone: 'green', isTrend: true },
+  { id: 'value-visit', label: "YTD value per\nsuppr'd visit", value: '$170', tone: 'green' },
+  { id: 'eoy-savings', label: 'Estimated EOY\nnet Savings (Aetna)', value: '$19M', tone: 'orange' },
 ]
 
-const filterLabels = ['N2P return', 'Market', 'State', 'IVL/GRP/SNP', 'Contract', 'PBP']
+const optumSummaryMetrics = [
+  { id: 'optum-ytd-suppr', label: 'YTD\nsuppressions', value: '540k', tone: 'blue' },
+  { id: 'optum-current-suppr', label: 'Currently\nsuppressed', value: '312k', tone: 'neutral' },
+  { id: 'optum-saved-visits', label: 'YTD estimated\nsaved visits', value: '36k', tone: 'neutral' },
+  { id: 'optum-hcc-capture', label: 'YTD gross\nHCC capture', value: '12%', tone: 'green', isTrend: true },
+  { id: 'optum-value-visit', label: "YTD value per\nsuppr'd visit", value: '$158', tone: 'green' },
+  { id: 'optum-eoy-savings', label: 'Estimated EOY\nnet Savings (Aetna)', value: '$16M', tone: 'orange' },
+]
+
+const overviewFilterLabels = ['N2P return', 'Market', 'State', 'IVL/GRP/SNP', 'Contract', 'PBP']
+const ytdFilterLabels = ['N2P/return', 'Market', 'State', 'IVL/GRP', 'Contract', 'PBP']
+
+const VIEW = {
+  overview: 'overview',
+  ytdSuppression: 'ytdSuppression',
+}
 
 const navSections = [
   {
     key: 'signify',
     title: 'Signify HHV',
     icon: <HomeIcon />,
-    items: ['YTD suppression stats', 'Model Performance', 'Future suppressions'],
+    items: [
+      { key: 'signify-ytd', label: 'YTD suppression stats', view: VIEW.ytdSuppression },
+      { key: 'signify-model', label: 'Model Performance' },
+      { key: 'signify-future', label: 'Future suppressions' },
+    ],
   },
   {
     key: 'optum',
     title: 'Optum IOA',
     icon: <NoteIcon />,
-    items: ['Model Performance', 'YTD suppression stats', 'Future suppressions'],
+    items: [
+      { key: 'optum-model', label: 'Model Performance' },
+      { key: 'optum-ytd', label: 'YTD suppression stats' },
+      { key: 'optum-future', label: 'Future suppressions' },
+    ],
   },
 ]
 
-const Home = () => (
-  <MainPageLayout>
-    <section className="ri-main-grid">
-      <aside className="ri-sidebar">
-        <h2 className="ri-sidebar-title">RI targeting Tool</h2>
+const getMetricValueToneClass = (metric) => {
+  if (metric.isTrend) {
+    const isNegative = String(metric.value).trim().startsWith('-')
+    return isNegative ? 'ri-kpi-value--red' : 'ri-kpi-value--green'
+  }
 
-        <div className="ri-overview-row">
-          <span className="ri-icon-cell">{<OverviewIcon />}</span>
-          <button type="button" className="ri-overview-btn" aria-current="page">
-            Overview
-          </button>
-        </div>
+  return `ri-kpi-value--${metric.tone}`
+}
 
-        {navSections.map((section) => (
-          <div key={section.key} className="ri-nav-row">
-            <span className="ri-icon-cell ri-icon-cell--muted">{section.icon}</span>
-            <div className="ri-nav-group">
-              <p className="ri-nav-heading">{section.title}</p>
-              <ul className="ri-nav-list">
-                {section.items.map((item) => (
-                  <li key={item} className="ri-nav-item">
-                    {item}
-                  </li>
-                ))}
-              </ul>
+const Home = () => {
+  const [activeView, setActiveView] = useState(VIEW.overview)
+
+  return (
+    <MainPageLayout>
+      <section className="ri-main-grid">
+        <aside className="ri-sidebar">
+          <h2 className="ri-sidebar-title">RI targeting Tool</h2>
+
+          <div className="ri-overview-row">
+            <span className="ri-icon-cell">{<OverviewIcon />}</span>
+            <button
+              type="button"
+              className={`ri-overview-btn ${activeView === VIEW.overview ? 'is-active' : ''}`}
+              aria-current={activeView === VIEW.overview ? 'page' : undefined}
+              onClick={() => setActiveView(VIEW.overview)}
+            >
+              Overview
+            </button>
+          </div>
+
+          {navSections.map((section) => (
+            <div key={section.key} className="ri-nav-row">
+              <span className="ri-icon-cell ri-icon-cell--muted">{section.icon}</span>
+              <div className="ri-nav-group">
+                <p className="ri-nav-heading">{section.title}</p>
+                <ul className="ri-nav-list">
+                  {section.items.map((item) => (
+                    <li key={item.key}>
+                      {item.view ? (
+                        <button
+                          type="button"
+                          className={`ri-nav-item-btn ${activeView === item.view ? 'is-active' : ''}`}
+                          onClick={() => setActiveView(item.view)}
+                        >
+                          {item.label}
+                        </button>
+                      ) : (
+                        <span className="ri-nav-item">{item.label}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        ))}
-      </aside>
+          ))}
+        </aside>
 
-      <section className="ri-content">
-        <section className="ri-filter-panel">
-          <h3 className="ri-filter-title">Overview</h3>
-          <div className="ri-filter-grid">
-            {filterLabels.map((label) => (
-              <label key={label} className="ri-filter-item">
-                <span>{label}</span>
-                <span className="ri-filter-arrow">v</span>
-              </label>
-            ))}
-          </div>
-        </section>
+        <section className="ri-content">
+          {activeView === VIEW.overview ? (
+            <section className="ri-filter-panel">
+              <h3 className="ri-filter-title">Overview</h3>
+              <div className="ri-filter-grid">
+                {overviewFilterLabels.map((label) => (
+                  <label key={label} className="ri-filter-item">
+                    <span>{label}</span>
+                    <span className="ri-filter-arrow">v</span>
+                  </label>
+                ))}
+              </div>
+            </section>
+          ) : (
+            <section className="ri-ytd-header-strip">
+              <div className="ri-ytd-header-left">
+                <h3 className="ri-ytd-strip-title">Signify HHV</h3>
+                <p className="ri-ytd-strip-subtitle">YTD suppression Stats</p>
+              </div>
+              <div className="ri-ytd-filter-row">
+                {ytdFilterLabels.map((label) => (
+                  <button type="button" key={label} className="ri-ytd-filter-btn">
+                    <span>{label}</span>
+                    <span className="ri-ytd-filter-arrow">&#9660;</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
 
-        <section className="ri-data-panel">
-          <h3 className="ri-panel-title">Signify HHV</h3>
-          <div className="ri-kpi-grid">
-            {summaryMetrics.map((metric) => (
-              <article key={metric.label} className="ri-kpi-card">
-                <div className="ri-kpi-label">{metric.label}</div>
-                <div className={`ri-kpi-value ri-kpi-value--${metric.tone}`}>{metric.value}</div>
-              </article>
-            ))}
-          </div>
-        </section>
+          <>
+            <section className="ri-data-panel ri-data-panel--summary">
+              <h3 className="ri-panel-title">Signify HHV</h3>
+              <div className="ri-kpi-grid">
+                {summaryMetrics.map((metric) => (
+                  <article key={metric.id} className="ri-kpi-card">
+                    <div className="ri-kpi-label">{metric.label}</div>
+                    <div className={`ri-kpi-value ${getMetricValueToneClass(metric)}`}>{metric.value}</div>
+                  </article>
+                ))}
+              </div>
+            </section>
 
-        <section className="ri-data-panel">
-          <h3 className="ri-panel-title">Optum IOA</h3>
-          <div className="ri-phase-box">TBD (Phase 2)</div>
+            <section className="ri-data-panel ri-data-panel--summary">
+              <h3 className="ri-panel-title">Optum IOA</h3>
+              <div className="ri-kpi-grid">
+                {optumSummaryMetrics.map((metric) => (
+                  <article key={metric.id} className="ri-kpi-card">
+                    <div className="ri-kpi-label">{metric.label}</div>
+                    <div className={`ri-kpi-value ${getMetricValueToneClass(metric)}`}>{metric.value}</div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </>
         </section>
       </section>
-    </section>
-  </MainPageLayout>
-)
+    </MainPageLayout>
+  )
+}
 
 export default Home

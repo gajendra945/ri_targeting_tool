@@ -1,0 +1,23 @@
+.ri-optum-ioa-ytd-page {
+  padding: 14px;
+  background: #fff;
+}
+
+.ri-optum-ioa-ytd-page .ri-feature-card {
+  border: 1px solid #d9e0ea;
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+}
+
+.ri-optum-ioa-ytd-page .ri-feature-title {
+  margin: 0;
+  font-size: 24px;
+  color: #1e4e89;
+}
+
+.ri-optum-ioa-ytd-page .ri-feature-description {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #405267;
+}
