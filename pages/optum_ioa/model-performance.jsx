@@ -1,17 +1,16 @@
 import React from 'react'
-import { MainPageLayout } from '../../component/main-page-layout'
+import { ProductPageLayout } from '../../component/product-page-layout'
+import { ProductPageStrip } from '../../component/product-page-strip'
 import '../../styles/ri_targeting_tool/optum_ioa/model-performance.css'
 
 const OptumIOAModelPerformancePage = () => {
   return (
-    <MainPageLayout>
-      <section className="ri-feature-page ri-optum-ioa-model-page">
-        <article className="ri-feature-card">
-          <h1 className="ri-feature-title">Optum IOA - Model Performance</h1>
-          <p className="ri-feature-description">Page scaffold is ready for this feature.</p>
-        </article>
+    <ProductPageLayout>
+      <ProductPageStrip title="Optum IOA" subtitle="Model Performance" />
+      <section className="ri-feature-body">
+        <p className="ri-feature-description">Page scaffold is ready for this feature.</p>
       </section>
-    </MainPageLayout>
+    </ProductPageLayout>
   )
 }
 
