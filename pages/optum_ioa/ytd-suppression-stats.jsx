@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactECharts from 'echarts-for-react'
+import { Bar, BarChart, LabelList, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { ProductPageLayout } from '../../component/product-page-layout'
 import { ProductPageStrip } from '../../component/product-page-strip'
 import '../../styles/ri_targeting_tool/optum_ioa/ytd-suppression-stats.css'
@@ -22,13 +22,13 @@ const operationalRows = [
 ]
 
 const completionChart = {
-  copyTitle: 'YoY HHV completion rates since 5/10 (%) -',
-  copySubtitle: 'Suppressed members: T vs. C',
+  copyTitle: 'YoY HHV completion rates since 5/10 (%)',
+  copySubtitle: 'Suppressed members: Treatment vs. Control',
   max: 30,
   interval: 10,
   legend: {
-    control: 'Control (targeted by Optum)',
-    treatment: 'Treatment (actively suppressed)',
+    control: 'Control group (targeted by Optum)',
+    treatment: 'Treatment group (actively suppressed)',
   },
   calloutLayouts: [
     { start: '31%', end: '61%', bubble: '46%' },
@@ -41,8 +41,8 @@ const completionChart = {
 }
 
 const monitoringChart = {
-  copyTitle: 'Gross HCC capture\u00b2 (%)',
-  copySubtitle: 'during completed visits',
+  copyTitle: 'Gross HCC capture rate (%)',
+  copySubtitle: 'during completed HHV visits',
   noteTitle: 'Avg 11% per saved visit',
   noteSubtitle: '(+12% optimized rate)',
   months: ['1 Jan', '1 Feb', '1 Mar', '1 Apr', '1 May', '1 Jun', '1 Jul', '1 Aug', '1 Sep', '1 Oct', '1 Nov', '1 Dec'],
@@ -60,226 +60,54 @@ const chartPalette = {
   axis: '#2f3743',
   control: '#cfcfd1',
   treatment: '#5f7fb9',
-  expectedLow: '#d2d7df',
+  expectedLow: '#2f3743',
   expectedHigh: '#c7e7e4',
   treatmentLow: '#5d7fb4',
   treatmentHigh: '#177f98',
   text: '#2a3342',
 }
 
+const buildTicks = (min = 0, max = 0, interval = 1) => {
+  const ticks = []
+
+  for (let value = min; value <= max; value += interval) {
+    ticks.push(value)
+  }
+
+  return ticks
+}
+
 const formatPercent = (value) => `${Number(value).toFixed(2).replace(/\.00$/, '')}%`
-
-const createImpactOption = (completion) => ({
-  animation: false,
-  color: [chartPalette.control, chartPalette.treatment],
-  grid: {
-    top: 50,
-    right: 16,
-    bottom: 70,
-    left: 42,
-  },
-  legend: {
-    bottom: 4,
-    icon: 'rect',
-    itemWidth: 14,
-    itemHeight: 14,
-    textStyle: {
-      color: chartPalette.text,
-      fontSize: 11,
-    },
-    data: [completion.legend.control, completion.legend.treatment],
-  },
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: { type: 'shadow' },
-    valueFormatter: (value) => formatPercent(value),
-  },
-  xAxis: {
-    type: 'category',
-    data: completion.groups.map((group) => group.label),
-    axisTick: { show: false },
-    axisLine: {
-      lineStyle: {
-        color: chartPalette.axis,
-        width: 1.6,
-      },
-    },
-    axisLabel: {
-      color: chartPalette.text,
-      fontSize: 11,
-      lineHeight: 15,
-      interval: 0,
-    },
-  },
-  yAxis: {
-    type: 'value',
-    min: 0,
-    max: completion.max,
-    interval: completion.interval,
-    axisLine: {
-      show: true,
-      lineStyle: {
-        color: chartPalette.axis,
-        width: 1.6,
-      },
-    },
-    axisTick: { show: false },
-    splitLine: { show: false },
-    axisLabel: {
-      color: chartPalette.text,
-      fontSize: 11,
-      formatter: (value) => `${value}%`,
-    },
-  },
-  series: [
-    {
-      name: completion.legend.control,
-      type: 'bar',
-      barWidth: 44,
-      data: completion.groups.map((group) => group.control),
-      label: {
-        show: true,
-        position: 'top',
-        color: chartPalette.text,
-        fontSize: 11,
-        fontWeight: 700,
-        formatter: ({ value }) => formatPercent(value),
-      },
-    },
-    {
-      name: completion.legend.treatment,
-      type: 'bar',
-      barWidth: 44,
-      data: completion.groups.map((group) => group.treatment),
-      label: {
-        show: true,
-        position: 'top',
-        color: chartPalette.text,
-        fontSize: 11,
-        fontWeight: 700,
-        formatter: ({ value }) => formatPercent(value),
-      },
-    },
-  ],
-})
-
-const createMonitoringOption = (monitoring) => ({
-  animation: false,
-  color: [
-    chartPalette.expectedLow,
-    chartPalette.treatmentLow,
-    chartPalette.expectedHigh,
-    chartPalette.treatmentHigh,
-  ],
-  grid: {
-    top: 16,
-    right: 14,
-    bottom: 58,
-    left: 42,
-  },
-  legend: {
-    bottom: 2,
-    icon: 'line',
-    itemWidth: 22,
-    itemHeight: 2,
-    textStyle: {
-      color: chartPalette.text,
-      fontSize: 11,
-    },
-    data: [
-      'Expected - Low Risk',
-      'Treatment (Low Risk)',
-      'Expected - High Risk',
-      'Treatment (High Risk)',
-    ],
-  },
-  tooltip: {
-    trigger: 'axis',
-    valueFormatter: (value) => `${value}%`,
-  },
-  xAxis: {
-    type: 'category',
-    boundaryGap: false,
-    data: monitoring.months,
-    axisTick: { show: false },
-    axisLine: {
-      lineStyle: {
-        color: chartPalette.axis,
-        width: 1.4,
-      },
-    },
-    axisLabel: {
-      color: chartPalette.text,
-      fontSize: 11,
-      interval: 0,
-    },
-  },
-  yAxis: {
-    type: 'value',
-    min: 0,
-    max: monitoring.max,
-    interval: monitoring.interval,
-    axisLine: {
-      show: true,
-      lineStyle: {
-        color: chartPalette.axis,
-        width: 1.4,
-      },
-    },
-    axisTick: { show: false },
-    splitLine: { show: false },
-    axisLabel: {
-      color: chartPalette.text,
-      fontSize: 11,
-      formatter: (value) => `${value}%`,
-    },
-  },
-  series: [
-    {
-      name: 'Expected - Low Risk',
-      type: 'line',
-      showSymbol: false,
-      lineStyle: {
-        type: 'dashed',
-        width: 1.6,
-      },
-      data: monitoring.expectedLow,
-    },
-    {
-      name: 'Treatment (Low Risk)',
-      type: 'line',
-      showSymbol: false,
-      lineStyle: {
-        width: 1.8,
-      },
-      data: monitoring.treatmentLow,
-      smooth: 0.2,
-    },
-    {
-      name: 'Expected - High Risk',
-      type: 'line',
-      showSymbol: false,
-      lineStyle: {
-        type: 'dashed',
-        width: 1.6,
-      },
-      data: monitoring.expectedHigh,
-    },
-    {
-      name: 'Treatment (High Risk)',
-      type: 'line',
-      showSymbol: false,
-      lineStyle: {
-        width: 1.8,
-        type: 'dashed',
-      },
-      data: monitoring.treatmentHigh,
-      smooth: 0.18,
-    },
-  ],
-})
-
+const formatPercentValue = (value) => `${value}%`
 const getCellToneClass = (tone) => (tone ? `ri-ytd-cell ri-ytd-cell--${tone}` : undefined)
+
+const impactData = completionChart.groups.map((group) => ({
+  label: group.label,
+  control: group.control,
+  treatment: group.treatment,
+}))
+
+const monitoringData = monitoringChart.months.map((month, index) => ({
+  month,
+  treatmentLow: monitoringChart.treatmentLow[index],
+  treatmentHigh: monitoringChart.treatmentHigh[index],
+}))
+
+function YTDLegend({ items, className = '' }) {
+  return (
+    <div className={`ri-ytd-chart-legend ${className}`.trim()} role="list" aria-label="Chart legend">
+      {items.map((item) => (
+        <div key={item.label} className="ri-ytd-chart-legend-item" role="listitem">
+          <span
+            className={`ri-ytd-chart-legend-swatch ri-ytd-chart-legend-swatch--${item.kind}${item.dash ? ' ri-ytd-chart-legend-swatch--dash' : ''}`}
+            style={item.kind === 'square' ? { backgroundColor: item.color } : { '--ri-legend-color': item.color }}
+          />
+          <span className="ri-ytd-chart-legend-label">{item.label}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 const OptumIOAYTDSuppressionStatsPage = () => {
   return (
@@ -367,13 +195,44 @@ const OptumIOAYTDSuppressionStatsPage = () => {
                     )
                   })}
                 </div>
-                <ReactECharts
-                  className="ri-ytd-chart-canvas ri-ytd-chart-canvas--impact"
-                  option={createImpactOption(completionChart)}
-                  notMerge
-                  lazyUpdate
-                />
+                <div className="ri-ytd-chart-canvas ri-ytd-chart-canvas--impact">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={impactData} margin={{ top: 54, right: 10, bottom: 36, left: 12 }} barCategoryGap="32%" barGap={4}>
+                      <XAxis
+                        dataKey="label"
+                        height={40}
+                        tickLine={false}
+                        tickMargin={6}
+                        axisLine={{ stroke: chartPalette.axis, strokeWidth: 1.6 }}
+                        tick={{ fill: chartPalette.text, fontSize: 11 }}
+                        interval={0}
+                      />
+                      <YAxis
+                        width={30}
+                        domain={[0, completionChart.max]}
+                        ticks={buildTicks(0, completionChart.max, completionChart.interval)}
+                        tickLine={false}
+                        axisLine={{ stroke: chartPalette.axis, strokeWidth: 1.6 }}
+                        tick={{ fill: chartPalette.text, fontSize: 11 }}
+                        tickFormatter={(value) => `${value}%`}
+                      />
+                      <Tooltip formatter={(value, name) => [formatPercent(value), name]} contentStyle={{ fontSize: 11 }} />
+                      <Bar dataKey="control" name={completionChart.legend.control} fill={chartPalette.control} maxBarSize={46} isAnimationActive={false}>
+                        <LabelList dataKey="control" position="top" offset={6} formatter={formatPercent} fill={chartPalette.text} fontSize={11} fontWeight={700} />
+                      </Bar>
+                      <Bar dataKey="treatment" name={completionChart.legend.treatment} fill={chartPalette.treatment} maxBarSize={46} isAnimationActive={false}>
+                        <LabelList dataKey="treatment" position="top" offset={6} formatter={formatPercent} fill={chartPalette.text} fontSize={11} fontWeight={700} />
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
+              <YTDLegend
+                items={[
+                  { label: completionChart.legend.control, color: chartPalette.control, kind: 'square' },
+                  { label: completionChart.legend.treatment, color: chartPalette.treatment, kind: 'square' },
+                ]}
+              />
             </div>
           </article>
 
@@ -390,15 +249,65 @@ const OptumIOAYTDSuppressionStatsPage = () => {
                   <span>{monitoringChart.noteTitle}</span>
                   <span>{monitoringChart.noteSubtitle}</span>
                 </div>
-                <span className="ri-ytd-chart-marker ri-ytd-chart-marker--high">{monitoringChart.expectedHighLabel}%</span>
-                <span className="ri-ytd-chart-marker ri-ytd-chart-marker--low">{monitoringChart.expectedLowLabel}%</span>
-                <ReactECharts
-                  className="ri-ytd-chart-canvas ri-ytd-chart-canvas--monitoring"
-                  option={createMonitoringOption(monitoringChart)}
-                  notMerge
-                  lazyUpdate
-                />
+                <div className="ri-ytd-chart-canvas ri-ytd-chart-canvas--monitoring">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={monitoringData} margin={{ top: 28, right: 22, bottom: 28, left: 12 }}>
+                      <XAxis
+                        dataKey="month"
+                        height={30}
+                        tickLine={false}
+                        tickMargin={6}
+                        axisLine={{ stroke: chartPalette.axis, strokeWidth: 1.4 }}
+                        tick={{ fill: chartPalette.text, fontSize: 11 }}
+                        interval={0}
+                      />
+                      <YAxis
+                        width={28}
+                        domain={[0, monitoringChart.max]}
+                        ticks={buildTicks(0, monitoringChart.max, monitoringChart.interval)}
+                        tickLine={false}
+                        axisLine={{ stroke: chartPalette.axis, strokeWidth: 1.4 }}
+                        tick={{ fill: chartPalette.text, fontSize: 11 }}
+                        tickFormatter={(value) => `${value}%`}
+                      />
+                      <Tooltip
+                        formatter={(value, name) => [formatPercentValue(value), name]}
+                        labelFormatter={(label) => `Month: ${label}`}
+                        contentStyle={{ fontSize: 11 }}
+                      />
+                      <ReferenceLine
+                        y={monitoringChart.expectedHighLabel}
+                        stroke={chartPalette.expectedHigh}
+                        strokeWidth={1.6}
+                        strokeDasharray="6 4"
+                        isFront
+                        ifOverflow="extendDomain"
+                        label={{ value: `${monitoringChart.expectedHighLabel}%`, position: 'right', fill: '#3a3f47', fontSize: 12, fontWeight: 700 }}
+                      />
+                      <ReferenceLine
+                        y={monitoringChart.expectedLowLabel}
+                        stroke={chartPalette.expectedLow}
+                        strokeWidth={1.6}
+                        strokeDasharray="6 4"
+                        isFront
+                        ifOverflow="extendDomain"
+                        label={{ value: `${monitoringChart.expectedLowLabel}%`, position: 'right', fill: '#3a3f47', fontSize: 12, fontWeight: 700 }}
+                      />
+                      <Line type="monotone" dataKey="treatmentLow" name="Treatment (Low Risk)" stroke={chartPalette.treatmentLow} strokeWidth={1.8} dot={false} isAnimationActive={false} />
+                      <Line type="monotone" dataKey="treatmentHigh" name="Treatment (High Risk)" stroke={chartPalette.treatmentHigh} strokeWidth={1.8} strokeDasharray="6 4" dot={false} isAnimationActive={false} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
+              <YTDLegend
+                className="ri-ytd-chart-legend--monitoring"
+                items={[
+                  { label: 'Expected baseline - Low Risk', color: chartPalette.expectedLow, kind: 'line', dash: true },
+                  { label: 'Treatment trend - Low Risk', color: chartPalette.treatmentLow, kind: 'line' },
+                  { label: 'Expected baseline - High Risk', color: chartPalette.expectedHigh, kind: 'line', dash: true },
+                  { label: 'Treatment trend - High Risk', color: chartPalette.treatmentHigh, kind: 'line', dash: true },
+                ]}
+              />
             </div>
           </article>
         </section>

@@ -1,13 +1,11 @@
 import React, { useMemo } from 'react'
-import ReactECharts from 'echarts-for-react'
+import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { ProductPageLayout } from '../../component/product-page-layout'
 import { ProductPageStrip } from '../../component/product-page-strip'
 import '../../styles/ri_targeting_tool/signify_hhv/model-performance.css'
 
 const palette = {
-  brandBlue: '#1f5aa4',
   text: '#2e3a49',
-  border: '#d8dee8',
   expected: '#7f9fce',
   aetnaCost: '#5f5f5f',
   enterpriseCost: '#ef4444',
@@ -21,23 +19,28 @@ const palette = {
 
 const getColor = (token) => palette[token] ?? palette.text
 const formatMoney = (value) => `$${value}`
+const formatTooltipValue = (value, name) => [String(name).includes('Error') ? `${value}%` : formatMoney(value), name]
 
-const createRankingSeries = (series = []) =>
-  series.map((item) => ({
-    name: item.name,
-    type: 'line',
-    smooth: item.smooth ?? 0,
-    symbol: 'none',
-    lineStyle: {
-      width: 1.8,
-      type: item.dash ? 'dashed' : 'solid',
-      color: getColor(item.colorToken),
-    },
-    itemStyle: {
-      color: getColor(item.colorToken),
-    },
-    data: item.data ?? [],
-  }))
+const buildTicks = (min = 0, max = 0, interval = 1) => {
+  const ticks = []
+
+  for (let value = min; value <= max; value += interval) {
+    ticks.push(value)
+  }
+
+  return ticks
+}
+
+const createChartData = (categories = [], series = []) =>
+  categories.map((category, index) => {
+    const row = { category }
+
+    series.forEach((item) => {
+      row[item.key] = item.data?.[index] ?? null
+    })
+
+    return row
+  })
 
 const renderRankingCallouts = (callouts = []) =>
   callouts.map((item) => (
@@ -60,183 +63,24 @@ const renderRankingCallouts = (callouts = []) =>
     </React.Fragment>
   ))
 
-const createMonthlySeries = (series = []) =>
-  series.map((item) => ({
-    name: item.name,
-    type: 'line',
-    yAxisIndex: item.axis === 'right' ? 1 : 0,
-    symbol: item.showSymbol ? 'circle' : 'none',
-    symbolSize: item.showSymbol ? 4 : 0,
-    smooth: item.smooth ?? 0,
-    lineStyle: {
-      width: item.axis === 'right' ? 1.4 : 2,
-      type: item.dash ? 'dashed' : 'solid',
-      color: getColor(item.colorToken),
-    },
-    itemStyle: {
-      color: getColor(item.colorToken),
-    },
-    data: item.data ?? [],
-  }))
-
-const createRankingOption = (ranking = {}) => ({
-  animation: false,
-  grid: {
-    top: 24,
-    right: 210,
-    bottom: 32,
-    left: 52,
-  },
-  tooltip: {
-    trigger: 'axis',
-    valueFormatter: (value) => `$${value}`,
-  },
-  legend: {
-    right: 14,
-    top: 62,
-    orient: 'vertical',
-    itemWidth: 18,
-    itemHeight: 2,
-    itemGap: 8,
-    textStyle: {
-      color: palette.text,
-      fontSize: 10,
-    },
-    data: (ranking.series ?? []).map((item) => item.name),
-  },
-  xAxis: {
-    type: 'category',
-    boundaryGap: false,
-    data: ranking.categories ?? [],
-    axisTick: { show: false },
-    axisLine: {
-      lineStyle: {
-        color: '#394251',
-        width: 1.4,
-      },
-    },
-    axisLabel: {
-      color: palette.text,
-      fontSize: 10,
-      interval: 0,
-    },
-    name: ranking.xAxisLabel,
-    nameLocation: 'end',
-    nameGap: 12,
-    nameTextStyle: {
-      color: palette.text,
-      fontSize: 10,
-      fontWeight: 700,
-    },
-  },
-  yAxis: {
-    type: 'value',
-    min: ranking.yAxis?.min ?? 0,
-    max: ranking.yAxis?.max ?? 600,
-    interval: ranking.yAxis?.interval ?? 100,
-    axisLine: {
-      show: true,
-      lineStyle: {
-        color: '#394251',
-        width: 1.4,
-      },
-    },
-    axisTick: { show: false },
-    splitLine: { show: false },
-    axisLabel: {
-      color: palette.text,
-      fontSize: 10,
-      formatter: (value) => formatMoney(value),
-    },
-  },
-  series: createRankingSeries(ranking.series),
-})
-
-const createMonthPerformanceOption = (monthly = {}) => ({
-  animation: false,
-  grid: {
-    top: 18,
-    right: 232,
-    bottom: 32,
-    left: 54,
-  },
-  tooltip: {
-    trigger: 'axis',
-  },
-  legend: {
-    right: 14,
-    top: 26,
-    orient: 'vertical',
-    itemWidth: 18,
-    itemHeight: 2,
-    itemGap: 7,
-    textStyle: {
-      color: palette.text,
-      fontSize: 10,
-    },
-    data: (monthly.series ?? []).map((item) => item.name),
-  },
-  xAxis: {
-    type: 'category',
-    boundaryGap: false,
-    data: monthly.categories ?? [],
-    axisTick: { show: false },
-    axisLine: {
-      lineStyle: {
-        color: '#394251',
-        width: 1.4,
-      },
-    },
-    axisLabel: {
-      color: palette.text,
-      fontSize: 10,
-      interval: 0,
-    },
-  },
-  yAxis: [
-    {
-      type: 'value',
-      min: monthly.leftAxis?.min ?? -30,
-      max: monthly.leftAxis?.max ?? 50,
-      interval: monthly.leftAxis?.interval ?? 10,
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#394251',
-          width: 1.4,
-        },
-      },
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLabel: {
-        color: palette.text,
-        fontSize: 10,
-        formatter: (value) => value,
-      },
-    },
-    {
-      type: 'value',
-      min: monthly.rightAxis?.min ?? 0,
-      max: monthly.rightAxis?.max ?? 30,
-      interval: monthly.rightAxis?.interval ?? 5,
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#394251',
-          width: 1.2,
-        },
-      },
-      axisTick: { show: false },
-      splitLine: { show: false },
-      axisLabel: {
-        color: palette.text,
-        fontSize: 10,
-        formatter: (value) => value,
-      },
-    },
-  ],
-  series: createMonthlySeries(monthly.series),
-})
+function ModelLegend({ items }) {
+  return (
+    <div className="ri-model-legend-shell">
+      <p className="ri-model-legend-title">Line description</p>
+      <div className="ri-model-legend" role="list" aria-label="Chart legend">
+        {items.map((item) => (
+          <div key={item.key} className="ri-model-legend-item" role="listitem">
+            <span
+              className={`ri-model-legend-line${item.dash ? ' ri-model-legend-line--dash' : ''}`}
+              style={{ '--ri-legend-color': getColor(item.colorToken) }}
+            />
+            <span className="ri-model-legend-label">{item.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 const modelPerformanceData = {
   rankingChart: {
@@ -253,21 +97,21 @@ const modelPerformanceData = {
     series: [
       {
         key: 'expectedRiValue',
-        name: 'Expected avg RI value from HHV',
+        name: 'Expected avg RI value per HHV',
         colorToken: 'expected',
         data: [100, 135, 150, 190, 230, 300, 330, 420, 440, 500, 480],
         smooth: 0.18,
       },
       {
         key: 'aetnaCost',
-        name: 'HHV cost to Aetna',
+        name: 'Reference line - HHV cost to Aetna',
         colorToken: 'aetnaCost',
         data: [360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 360],
         dash: true,
       },
       {
         key: 'enterpriseCost',
-        name: 'HHV cost to Enterprise',
+        name: 'Reference line - HHV cost to Enterprise',
         colorToken: 'enterpriseCost',
         data: [125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125],
         dash: true,
@@ -292,7 +136,7 @@ const modelPerformanceData = {
     series: [
       {
         key: 'aetnaOctober',
-        name: 'Aetna Net Savings (October)',
+        name: 'Aetna net savings - October',
         colorToken: 'aetnaNetCurrent',
         axis: 'left',
         data: [0, 37, 38.7, 46.6, 45.0, 44.2, null, null, null, null, null],
@@ -301,7 +145,7 @@ const modelPerformanceData = {
       },
       {
         key: 'enterpriseOctober',
-        name: 'Enterprise Net Savings (October)',
+        name: 'Enterprise net savings - October',
         colorToken: 'enterpriseNetCurrent',
         axis: 'left',
         data: [0, 6.8, 8.1, 17.2, 17.2, 12.0, 6.0, null, null, null, null],
@@ -310,7 +154,7 @@ const modelPerformanceData = {
       },
       {
         key: 'aetnaSeptember',
-        name: 'Aetna Net Savings (September)',
+        name: 'Aetna net savings - September',
         colorToken: 'aetnaNetPrevious',
         axis: 'left',
         data: [0, 35, 36.5, 44.6, 45.7, 45.3, null, null, null, null, null],
@@ -318,7 +162,7 @@ const modelPerformanceData = {
       },
       {
         key: 'enterpriseSeptember',
-        name: 'Enterprise Net Savings (September)',
+        name: 'Enterprise net savings - September',
         colorToken: 'enterpriseNetPrevious',
         axis: 'left',
         data: [0, 5.9, 7.3, 16.8, 17.4, 13.2, 7.1, null, null, null, null],
@@ -326,7 +170,7 @@ const modelPerformanceData = {
       },
       {
         key: 'errorOctober',
-        name: 'Error Rate (October)',
+        name: 'Error rate - October',
         colorToken: 'errorCurrent',
         axis: 'right',
         data: [2.1, 3.0, 3.7, 4.2, 5.3, 6.9, 8.5, null, null, null, null],
@@ -334,7 +178,7 @@ const modelPerformanceData = {
       },
       {
         key: 'errorSeptember',
-        name: 'Error Rate (September)',
+        name: 'Error rate - September',
         colorToken: 'errorPrevious',
         axis: 'right',
         data: [1.6, 2.4, 3.1, 4.0, 5.1, 6.2, 7.8, null, null, null, null],
@@ -347,8 +191,8 @@ const modelPerformanceData = {
 function SignifyHHVModelPerformanceContent({ data }) {
   const ranking = data?.rankingChart ?? {}
   const monthly = data?.monthlyChart ?? {}
-  const rankingOption = useMemo(() => createRankingOption(ranking), [ranking])
-  const monthlyOption = useMemo(() => createMonthPerformanceOption(monthly), [monthly])
+  const rankingData = useMemo(() => createChartData(ranking.categories, ranking.series), [ranking])
+  const monthlyData = useMemo(() => createChartData(monthly.categories, monthly.series), [monthly])
 
   return (
     <section className="ri-model-card-grid">
@@ -358,12 +202,56 @@ function SignifyHHVModelPerformanceContent({ data }) {
           <p className="ri-model-axis-copy">{ranking.yAxisLabel}</p>
           <div className="ri-model-ranking-shell">
             {renderRankingCallouts(ranking.callouts)}
-            <ReactECharts
-              className="ri-model-chart ri-model-chart--ranking"
-              option={rankingOption}
-              notMerge
-              lazyUpdate
-            />
+            <div className="ri-model-chart-shell">
+              <div className="ri-model-chart-stage ri-model-chart--ranking">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={rankingData} margin={{ top: 18, right: 12, bottom: 18, left: 0 }}>
+                    <XAxis
+                      dataKey="category"
+                      tickLine={false}
+                      tickMargin={8}
+                      height={34}
+                      axisLine={{ stroke: '#394251', strokeWidth: 1.4 }}
+                      tick={{ fill: palette.text, fontSize: 10 }}
+                      interval={0}
+                      label={{
+                        value: ranking.xAxisLabel,
+                        position: 'insideBottomRight',
+                        offset: -4,
+                        fill: palette.text,
+                        fontSize: 10,
+                        fontWeight: 700,
+                      }}
+                    />
+                    <YAxis
+                      width={44}
+                      domain={[ranking.yAxis?.min ?? 0, ranking.yAxis?.max ?? 600]}
+                      ticks={buildTicks(ranking.yAxis?.min ?? 0, ranking.yAxis?.max ?? 600, ranking.yAxis?.interval ?? 100)}
+                      tickLine={false}
+                      axisLine={{ stroke: '#394251', strokeWidth: 1.4 }}
+                      tick={{ fill: palette.text, fontSize: 10 }}
+                      tickFormatter={(value) => formatMoney(value)}
+                    />
+                    <Tooltip formatter={formatTooltipValue} contentStyle={{ fontSize: 11 }} />
+                    {(ranking.series ?? []).map((item) => (
+                      <Line
+                        key={item.key}
+                        type={item.smooth ? 'monotone' : 'linear'}
+                        dataKey={item.key}
+                        name={item.name}
+                        stroke={getColor(item.colorToken)}
+                        strokeWidth={1.8}
+                        strokeDasharray={item.dash ? '6 4' : undefined}
+                        dot={false}
+                        isAnimationActive={false}
+                        connectNulls={false}
+                      />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <ModelLegend items={ranking.series ?? []} />
+            </div>
           </div>
         </div>
       </article>
@@ -375,12 +263,61 @@ function SignifyHHVModelPerformanceContent({ data }) {
             <span className="ri-model-axis-copy">{monthly.leftAxisLabel}</span>
             <span className="ri-model-axis-copy ri-model-axis-copy--right">{monthly.rightAxisLabel}</span>
           </div>
-          <ReactECharts
-            className="ri-model-chart ri-model-chart--monthly"
-            option={monthlyOption}
-            notMerge
-            lazyUpdate
-          />
+          <div className="ri-model-chart-shell">
+            <div className="ri-model-chart-stage ri-model-chart--monthly">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={monthlyData} margin={{ top: 16, right: 12, bottom: 18, left: 0 }}>
+                  <XAxis
+                    dataKey="category"
+                    tickLine={false}
+                    tickMargin={8}
+                    height={30}
+                    axisLine={{ stroke: '#394251', strokeWidth: 1.4 }}
+                    tick={{ fill: palette.text, fontSize: 10 }}
+                    interval={0}
+                  />
+                  <YAxis
+                    yAxisId="left"
+                    width={34}
+                    domain={[monthly.leftAxis?.min ?? -30, monthly.leftAxis?.max ?? 50]}
+                    ticks={buildTicks(monthly.leftAxis?.min ?? -30, monthly.leftAxis?.max ?? 50, monthly.leftAxis?.interval ?? 10)}
+                    tickLine={false}
+                    axisLine={{ stroke: '#394251', strokeWidth: 1.4 }}
+                    tick={{ fill: palette.text, fontSize: 10 }}
+                  />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    width={32}
+                    domain={[monthly.rightAxis?.min ?? 0, monthly.rightAxis?.max ?? 30]}
+                    ticks={buildTicks(monthly.rightAxis?.min ?? 0, monthly.rightAxis?.max ?? 30, monthly.rightAxis?.interval ?? 5)}
+                    tickLine={false}
+                    axisLine={{ stroke: '#394251', strokeWidth: 1.2 }}
+                    tick={{ fill: palette.text, fontSize: 10 }}
+                  />
+                  <Tooltip formatter={formatTooltipValue} contentStyle={{ fontSize: 11 }} />
+                  <ReferenceLine yAxisId="left" y={0} stroke="#394251" strokeWidth={1.2} />
+                  {(monthly.series ?? []).map((item) => (
+                    <Line
+                      key={item.key}
+                      yAxisId={item.axis === 'right' ? 'right' : 'left'}
+                      type={item.smooth ? 'monotone' : 'linear'}
+                      dataKey={item.key}
+                      name={item.name}
+                      stroke={getColor(item.colorToken)}
+                      strokeWidth={item.axis === 'right' ? 1.4 : 2}
+                      strokeDasharray={item.dash ? '6 4' : undefined}
+                      dot={item.showSymbol ? { r: 2.5, strokeWidth: 0, fill: getColor(item.colorToken) } : false}
+                      activeDot={item.showSymbol ? { r: 4 } : false}
+                      isAnimationActive={false}
+                      connectNulls={false}
+                    />
+                  ))}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <ModelLegend items={monthly.series ?? []} />
+          </div>
         </div>
       </article>
     </section>
