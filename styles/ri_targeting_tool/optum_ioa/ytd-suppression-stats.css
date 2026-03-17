@@ -113,6 +113,172 @@
   height: 41px;
 }
 
+.ri-optum-ioa-ytd-page .ri-ytd-chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-card {
+  min-width: 0;
+  border: 1px solid #d6dde7;
+  background: #fff;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-header {
+  padding: 7px 14px;
+  background: #1f5aa4;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-body {
+  padding: 12px 12px 8px;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-copy {
+  margin: 0 0 4px;
+  color: #2b3342;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-canvas {
+  width: 100%;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-wrap {
+  position: relative;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-overlay {
+  position: absolute;
+  top: 4px;
+  left: 42px;
+  right: 16px;
+  bottom: 70px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-group-overlay {
+  position: relative;
+  --ri-impact-start: 31%;
+  --ri-impact-end: 61%;
+  --ri-impact-bubble: 46%;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-bubble {
+  position: absolute;
+  top: 0;
+  left: var(--ri-impact-bubble);
+  min-width: 68px;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border: 1.4px solid #2a3342;
+  border-radius: 999px;
+  background: #f7f7f7;
+  color: #2a3342;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-leg {
+  position: absolute;
+  background: #2a3342;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-leg--left {
+  left: var(--ri-impact-start);
+  top: 26px;
+  width: 1.4px;
+  height: 18px;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-leg--top {
+  left: var(--ri-impact-start);
+  top: 26px;
+  width: calc(var(--ri-impact-end) - var(--ri-impact-start));
+  height: 1.4px;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-leg--right {
+  left: var(--ri-impact-end);
+  top: 26px;
+  width: 1.4px;
+  height: 40px;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-impact-arrow {
+  position: absolute;
+  left: calc(var(--ri-impact-end) - 5px);
+  top: 64px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid #2a3342;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-monitor-wrap {
+  position: relative;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-note {
+  position: absolute;
+  top: 4px;
+  right: 34px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 10px;
+  border: 1px solid #4a86cf;
+  border-radius: 6px;
+  background: #edf5ff;
+  color: #214a83;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-marker {
+  position: absolute;
+  right: 26px;
+  z-index: 2;
+  color: #3a3f47;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-marker--high {
+  top: 48px;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-marker--low {
+  top: 146px;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-canvas--impact {
+  height: 250px;
+}
+
+.ri-optum-ioa-ytd-page .ri-ytd-chart-canvas--monitoring {
+  height: 230px;
+}
+
 @media (max-width: 1100px) {
   .ri-optum-ioa-ytd-page .ri-ytd-table-grid {
     grid-template-columns: 1fr;
@@ -128,5 +294,21 @@
   .ri-optum-ioa-ytd-page .ri-ytd-table--financial tbody tr,
   .ri-optum-ioa-ytd-page .ri-ytd-table--operational tbody tr {
     height: auto;
+  }
+
+  .ri-optum-ioa-ytd-page .ri-ytd-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ri-optum-ioa-ytd-page .ri-ytd-impact-overlay {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ri-optum-ioa-ytd-page .ri-ytd-chart-note {
+    right: 18px;
+  }
+
+  .ri-optum-ioa-ytd-page .ri-ytd-chart-marker {
+    right: 12px;
   }
 }
