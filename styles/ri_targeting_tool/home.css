@@ -215,6 +215,7 @@
   border: 1px solid #cfd6e0;
   border-radius: 4px;
   padding: 7px 10px;
+  min-width: 0;
   min-height: 38px;
   font-size: 13px;
   color: #2f3f52;
@@ -222,11 +223,35 @@
   box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
 }
 
+.ri-filter-item--select {
+  padding: 0 10px;
+}
+
+.ri-filter-select {
+  width: 100%;
+  min-width: 0;
+  height: 36px;
+  border: 0;
+  padding: 0 24px 0 0;
+  background: transparent;
+  color: #2d425a;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.ri-filter-select::-ms-expand {
+  display: none;
+}
+
 .ri-filter-arrow {
   margin-left: auto;
   font-size: 11px;
   color: #647489;
   font-weight: 700;
+  pointer-events: none;
 }
 
 .ri-page-filter-btn {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { ProductPageLayout } from '../component/product-page-layout'
+import { TopFilterRow } from '../component/product-page-strip'
 
 const summaryMetrics = [
   { id: 'ytd-suppr', label: 'YTD\nsuppressions', value: '600k', tone: 'blue' },
@@ -19,8 +20,6 @@ const optumSummaryMetrics = [
   { id: 'optum-eoy-savings', label: 'Estimated EOY\nnet Savings (Aetna)', value: '$16M', tone: 'orange' },
 ]
 
-const overviewFilterLabels = ['N2P return', 'Market', 'State', 'IVL/GRP/SNP', 'Contract', 'PBP']
-
 const getMetricValueToneClass = (metric) => {
   if (metric.isTrend) {
     const isNegative = String(metric.value).trim().startsWith('-')
@@ -35,14 +34,7 @@ const Home = () => {
     <ProductPageLayout>
       <section className="ri-overview-strip">
         <h3 className="ri-overview-strip-title">Overview</h3>
-        <div className="ri-overview-filter-row">
-          {overviewFilterLabels.map((label) => (
-            <label key={label} className="ri-filter-item">
-              <span>{label}</span>
-              <span className="ri-filter-arrow">v</span>
-            </label>
-          ))}
-        </div>
+        <TopFilterRow className="ri-overview-filter-row" />
       </section>
 
       <section className="ri-data-panel ri-data-panel--summary">

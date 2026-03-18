@@ -2,3 +2,118 @@
   padding-top: 0;
   background: transparent;
 }
+
+.ri-signify-hhv-future-page .ri-future-threshold-card {
+  border: 1px solid #d6dde7;
+  background: #fff;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-card-header {
+  padding: 8px 14px;
+  background: #1f5aa4;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-card-body {
+  padding: 14px 18px 12px;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-plot {
+  min-width: 0;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-axis-title {
+  margin: 0 0 6px;
+  color: #2b3342;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-scroll {
+  overflow: hidden;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-inner {
+  width: 100%;
+  min-width: 0;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-canvas {
+  height: 220px;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-x-axis-title {
+  margin: 8px 4px 0 0;
+  color: #4b5565;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: right;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
+  padding-top: 2px;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2b3342;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-legend-label {
+  display: inline-block;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 14px;
+  border: 1px solid #9ea6b2;
+  background: #fff;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-swatch--pattern {
+  background-color: #fff;
+  background-image: repeating-linear-gradient(-45deg, #9a9a9a 0 2px, transparent 2px 4px);
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-swatch--new {
+  background: #eef2f7;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-swatch--keep {
+  background: #6f8fbe;
+  border-color: #536f98;
+}
+
+.ri-signify-hhv-future-page .ri-future-threshold-swatch--release {
+  background: #c8c8c8;
+  border-color: #9ea3aa;
+}
+
+@media (max-width: 1100px) {
+  .ri-signify-hhv-future-page .ri-future-threshold-legend {
+    justify-content: flex-start;
+    gap: 10px 16px;
+  }
+}

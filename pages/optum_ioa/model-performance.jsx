@@ -66,7 +66,6 @@ const renderRankingCallouts = (callouts = []) =>
 function ModelLegend({ items }) {
   return (
     <div className="ri-model-legend-shell">
-      <p className="ri-model-legend-title">Line description</p>
       <div className="ri-model-legend" role="list" aria-label="Chart legend">
         {items.map((item) => (
           <div key={item.key} className="ri-model-legend-item" role="listitem">
@@ -261,10 +260,10 @@ function OptumIOAModelPerformanceContent({ data }) {
         <div className="ri-model-card-body">
           <div className="ri-model-axis-row">
             <span className="ri-model-axis-copy">{monthly.leftAxisLabel}</span>
-            <span className="ri-model-axis-copy ri-model-axis-copy--right">{monthly.rightAxisLabel}</span>
           </div>
           <div className="ri-model-chart-shell">
             <div className="ri-model-chart-stage ri-model-chart--monthly">
+              <span className="ri-model-axis-copy ri-model-axis-copy--chart-right">{monthly.rightAxisLabel}</span>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={monthlyData} margin={{ top: 16, right: 12, bottom: 18, left: 0 }}>
                   <XAxis

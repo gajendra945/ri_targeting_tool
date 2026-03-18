@@ -88,6 +88,11 @@
   white-space: nowrap;
 }
 
+.ri-optum-ioa-ytd-page .ri-ytd-table-heading--multiline {
+  display: inline-block;
+  white-space: pre-line;
+}
+
 .ri-optum-ioa-ytd-page .ri-ytd-cell {
   font-weight: 700;
   color: #123f73;
@@ -254,7 +259,7 @@
 }
 
 .ri-optum-ioa-ytd-page .ri-ytd-chart-canvas--impact {
-  height: 220px;
+  height: 250px;
 }
 
 .ri-optum-ioa-ytd-page .ri-ytd-chart-canvas--monitoring {

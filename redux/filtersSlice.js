@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  n2pReturn: 'All',
-  market: 'National',
-  state: 'All',
-  ivlGrpSnp: 'All',
-  contract: 'All',
-  pbp: 'All',
+  n2pReturn: 'N2P return',
+  market: 'Market',
+  state: 'State',
+  ivlGrpSnp: 'IVL/GRP/SNP',
+  contract: 'Contract',
+  pbp: 'PBP',
 }
 
 const filtersSlice = createSlice({

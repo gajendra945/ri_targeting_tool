@@ -24,7 +24,7 @@ const operationalRows = [
 const completionChart = {
   copyTitle: 'YoY HHV completion rates since 5/10 (%)',
   copySubtitle: 'Suppressed members: Treatment vs. Control',
-  max: 30,
+  max: 50,
   interval: 10,
   legend: {
     control: 'Control group (targeted by Optum)',
@@ -121,9 +121,13 @@ const OptumIOAYTDSuppressionStatsPage = () => {
               <thead>
                 <tr>
                   <th>Key metric</th>
-                  <th>EOY goal</th>
+                  <th>
+                    <span className="ri-ytd-table-heading--multiline">{"EOY\nGoal"}</span>
+                  </th>
                   <th>YTD</th>
-                  <th>EOY Forecast</th>
+                  <th>
+                    <span className="ri-ytd-table-heading--multiline">{"EOY\nForecast"}</span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -145,7 +149,9 @@ const OptumIOAYTDSuppressionStatsPage = () => {
               <thead>
                 <tr>
                   <th>Key metric</th>
-                  <th>EOY goal</th>
+                  <th>
+                    <span className="ri-ytd-table-heading--multiline">{"EOY\nGoal"}</span>
+                  </th>
                   <th>YTD</th>
                 </tr>
               </thead>
@@ -210,7 +216,7 @@ const OptumIOAYTDSuppressionStatsPage = () => {
                       <YAxis
                         width={30}
                         domain={[0, completionChart.max]}
-                        ticks={buildTicks(0, completionChart.max, completionChart.interval)}
+                        ticks={buildTicks(completionChart.interval, completionChart.max, completionChart.interval)}
                         tickLine={false}
                         axisLine={{ stroke: chartPalette.axis, strokeWidth: 1.6 }}
                         tick={{ fill: chartPalette.text, fontSize: 11 }}
