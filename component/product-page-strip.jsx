@@ -1,6 +1,4 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setRiTargetingToolFilters } from '../redux'
 
 const filterDefinitions = [
   {
@@ -29,17 +27,50 @@ const filterDefinitions = [
   },
 ]
 
+const filterStorageKey = 'ri-targeting-tool-top-filters'
+
+const defaultFilterValues = {
+  n2pReturn: 'N2P return',
+  market: 'Market',
+  state: 'State',
+  ivlGrpSnp: 'IVL/GRP/SNP',
+  contract: 'Contract',
+  pbp: 'PBP',
+}
+
+const readStoredFilters = () => {
+  if (typeof window === 'undefined') {
+    return defaultFilterValues
+  }
+
+  try {
+    const storedValue = window.localStorage.getItem(filterStorageKey)
+
+    if (!storedValue) {
+      return defaultFilterValues
+    }
+
+    return {
+      ...defaultFilterValues,
+      ...JSON.parse(storedValue),
+    }
+  } catch {
+    return defaultFilterValues
+  }
+}
+
 export function TopFilterRow({ className }) {
-  const filters = useSelector((state) => state.filters)
-  const dispatch = useDispatch()
+  const [filters, setFilters] = React.useState(readStoredFilters)
+
+  React.useEffect(() => {
+    window.localStorage.setItem(filterStorageKey, JSON.stringify(filters))
+  }, [filters])
 
   const handleChange = (key, value) => {
-    dispatch(
-      setRiTargetingToolFilters({
-        ...filters,
-        [key]: value,
-      }),
-    )
+    setFilters((currentFilters) => ({
+      ...currentFilters,
+      [key]: value,
+    }))
   }
 
   return (
