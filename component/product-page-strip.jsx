@@ -38,6 +38,17 @@ const defaultFilterValues = {
   pbp: 'PBP',
 }
 
+const normalizeFilters = (candidateFilters = {}) =>
+  filterDefinitions.reduce((accumulator, filterDefinition) => {
+    const candidateValue = candidateFilters[filterDefinition.key]
+
+    accumulator[filterDefinition.key] = filterDefinition.options.includes(candidateValue)
+      ? candidateValue
+      : defaultFilterValues[filterDefinition.key]
+
+    return accumulator
+  }, {})
+
 const readStoredFilters = () => {
   if (typeof window === 'undefined') {
     return defaultFilterValues
@@ -50,10 +61,7 @@ const readStoredFilters = () => {
       return defaultFilterValues
     }
 
-    return {
-      ...defaultFilterValues,
-      ...JSON.parse(storedValue),
-    }
+    return normalizeFilters(JSON.parse(storedValue))
   } catch {
     return defaultFilterValues
   }
@@ -67,10 +75,16 @@ export function TopFilterRow({ className }) {
   }, [filters])
 
   const handleChange = (key, value) => {
-    setFilters((currentFilters) => ({
-      ...currentFilters,
-      [key]: value,
-    }))
+    setFilters((currentFilters) => {
+      const nextFilters = {
+        ...currentFilters,
+        [key]: value,
+      }
+
+      window.localStorage.setItem(filterStorageKey, JSON.stringify(nextFilters))
+
+      return nextFilters
+    })
   }
 
   return (

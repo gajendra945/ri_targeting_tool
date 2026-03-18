@@ -171,10 +171,10 @@
 
 .ri-overview-strip,
 .ri-page-strip {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 16px 18px;
   padding: 0 2px 8px;
   background: transparent;
 }
@@ -186,10 +186,11 @@
   font-weight: 700;
   color: #223548;
   letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .ri-page-strip-left {
-  min-width: 170px;
+  min-width: 0;
 }
 
 .ri-page-strip-subtitle {
@@ -198,14 +199,21 @@
   font-style: italic;
   font-weight: 700;
   color: #3f4d61;
+  white-space: nowrap;
 }
 
 .ri-overview-filter-row,
 .ri-page-filter-row {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 10px;
-  flex: 1;
+  grid-template-columns:
+    minmax(0, 1.26fr)
+    minmax(0, 0.98fr)
+    minmax(0, 0.96fr)
+    minmax(0, 1.18fr)
+    minmax(0, 0.98fr)
+    minmax(0, 0.82fr);
+  gap: 8px;
+  min-width: 0;
 }
 
 .ri-filter-item {
@@ -217,25 +225,28 @@
   padding: 7px 10px;
   min-width: 0;
   min-height: 38px;
-  font-size: 13px;
+  font-size: 12px;
   color: #2f3f52;
   background: #fff;
   box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
 }
 
 .ri-filter-item--select {
-  padding: 0 10px;
+  position: relative;
+  display: block;
+  padding: 0;
 }
 
 .ri-filter-select {
+  display: block;
   width: 100%;
   min-width: 0;
   height: 36px;
   border: 0;
-  padding: 0 24px 0 0;
+  padding: 0 24px 0 8px;
   background: transparent;
   color: #2d425a;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   outline: none;
   appearance: none;
@@ -247,7 +258,11 @@
 }
 
 .ri-filter-arrow {
-  margin-left: auto;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  margin-left: 0;
   font-size: 11px;
   color: #647489;
   font-weight: 700;
