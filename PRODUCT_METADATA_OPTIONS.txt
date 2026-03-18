@@ -1,0 +1,17 @@
+[
+  {
+    name: 'RI Targeting Tool',
+    iconName: 'Target',
+    description: 'Analyze Signify and Optum RI targeting performance with an intuitive interface for tracking suppression metrics, model performance, and future suppression planning.'
+  },
+  {
+    name: 'RI Targeting Tool',
+    iconName: 'BarChart3',
+    description: 'Unified RI targeting workspace for monitoring suppression performance, reviewing model outcomes, and planning future suppression decisions across Signify and Optum.'
+  },
+  {
+    name: 'RI Targeting Tool',
+    iconName: 'LayoutDashboard',
+    description: 'Centralized RI targeting dashboard for comparing Signify and Optum results, exploring suppression insights, and supporting forward-looking suppression strategy.'
+  }
+]
