@@ -1,8 +1,8 @@
 import React from 'react'
 import { Bar, BarChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from 'recharts'
-import { ProductPageLayout } from '../../component/product-page-layout'
-import { ProductPageStrip } from '../../component/product-page-strip'
-import '../../styles/ri_targeting_tool/optum_ioa/future-suppressions.css'
+import { ProductPageLayout } from '../../component/productPageLayout'
+import { ProductPageStrip } from '../../component/productPageStrip'
+import '../../styles/riTargetingTool/signifyHHV/futureSuppressions.css'
 
 const formatMemberCount = (value) => new Intl.NumberFormat('en-US').format(value)
 
@@ -66,7 +66,7 @@ function FutureSuppressionThresholdChart() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={thresholdData} margin={{ top: 8, right: 8, bottom: 16, left: 6 }} barCategoryGap="18%" barGap={0}>
                       <defs>
-                        <pattern id="optum-ioa-future-threshold-pattern" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                        <pattern id="signify-hhv-future-threshold-pattern" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                           <rect width="6" height="6" fill="#ffffff" />
                           <line x1="0" y1="0" x2="0" y2="6" stroke="#999999" strokeWidth="2" />
                         </pattern>
@@ -99,7 +99,7 @@ function FutureSuppressionThresholdChart() {
                         dataKey="keepTargeting"
                         stackId="thresholds"
                         name="Keep in Targeting"
-                        fill="url(#optum-ioa-future-threshold-pattern)"
+                        fill="url(#signify-hhv-future-threshold-pattern)"
                         stroke="#9a9a9a"
                         maxBarSize={18}
                         isAnimationActive={false}
@@ -130,15 +130,15 @@ function FutureSuppressionThresholdChart() {
   )
 }
 
-const OptumIOAFutureSuppressionsPage = () => {
+const SignifyHHVFutureSuppressionsPage = () => {
   return (
     <ProductPageLayout>
-      <ProductPageStrip title="Optum IOA" subtitle="Future Suppressions" />
-      <section className="ri-feature-body ri-optum-ioa-future-page">
+      <ProductPageStrip title="Signify HHV" subtitle="Future Suppressions" />
+      <section className="ri-feature-body ri-signify-hhv-future-page">
         <FutureSuppressionThresholdChart />
       </section>
     </ProductPageLayout>
   )
 }
 
-export default OptumIOAFutureSuppressionsPage
+export default SignifyHHVFutureSuppressionsPage

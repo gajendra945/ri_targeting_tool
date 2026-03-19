@@ -1,16 +1,16 @@
 export const riTargetingToolRoutes = {
-  base: '/ri_targeting_tool',
-  home: '/ri_targeting_tool',
+  base: '/ri-targeting-tool',
+  home: '/ri-targeting-tool',
   signifyHHV: {
-    base: '/ri_targeting_tool/signify_hhv',
-    ytdSuppressionStats: '/ri_targeting_tool/signify_hhv/ytd-suppression-stats',
-    modelPerformance: '/ri_targeting_tool/signify_hhv/model-performance',
-    futureSuppressions: '/ri_targeting_tool/signify_hhv/future-suppressions',
+    base: '/ri-targeting-tool/signify-hhv',
+    ytdSuppressionStats: '/ri-targeting-tool/signify-hhv/ytd-suppression-stats',
+    modelPerformance: '/ri-targeting-tool/signify-hhv/model-performance',
+    futureSuppressions: '/ri-targeting-tool/signify-hhv/future-suppressions',
   },
   optumIOA: {
-    base: '/ri_targeting_tool/optum_ioa',
-    ytdSuppressionStats: '/ri_targeting_tool/optum_ioa/ytd-suppression-stats',
-    modelPerformance: '/ri_targeting_tool/optum_ioa/model-performance',
-    futureSuppressions: '/ri_targeting_tool/optum_ioa/future-suppressions',
+    base: '/ri-targeting-tool/optum-ioa',
+    ytdSuppressionStats: '/ri-targeting-tool/optum-ioa/ytd-suppression-stats',
+    modelPerformance: '/ri-targeting-tool/optum-ioa/model-performance',
+    futureSuppressions: '/ri-targeting-tool/optum-ioa/future-suppressions',
   },
 }

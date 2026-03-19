@@ -1,24 +1,24 @@
 import React from 'react'
 import { Bar, BarChart, LabelList, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { ProductPageLayout } from '../../component/product-page-layout'
-import { ProductPageStrip } from '../../component/product-page-strip'
-import '../../styles/ri_targeting_tool/signify_hhv/ytd-suppression-stats.css'
+import { ProductPageLayout } from '../../component/productPageLayout'
+import { ProductPageStrip } from '../../component/productPageStrip'
+import '../../styles/riTargetingTool/optumIOA/ytdSuppressionStats.css'
 
 const financialRows = [
-  { label: '# members currently suppressed', goal: '31k', ytd: '339k', forecast: '362k', forecastTone: 'green' },
-  { label: '# of members released', goal: '406k', ytd: '271k', forecast: '386k', forecastTone: 'green' },
-  { label: 'Aetna Med Costs', goal: '$41M', ytd: '$19M', forecast: '$25M', forecastTone: 'amber' },
-  { label: 'RI Value Lost', goal: '< $16M', ytd: '$7M', forecast: '$7M', forecastTone: 'green' },
-  { label: 'Net Aetna Savings', goal: '$25M', ytd: '$12M', forecast: '$17M', forecastTone: 'amber' },
-  { label: 'Net enterprise Savings', goal: '$10M', ytd: '$5M', forecast: '$7M', forecastTone: 'amber' },
+  { label: '# members currently suppressed', goal: '28k', ytd: '312k', forecast: '338k', forecastTone: 'green' },
+  { label: '# of members released', goal: '384k', ytd: '249k', forecast: '361k', forecastTone: 'green' },
+  { label: 'Aetna Med Costs', goal: '$36M', ytd: '$16M', forecast: '$25M', forecastTone: 'amber' },
+  { label: 'RI Value Lost', goal: '< $14M', ytd: '$6M', forecast: '$6M', forecastTone: 'green' },
+  { label: 'Net Aetna Savings', goal: '$22M', ytd: '$10M', forecast: '$15M', forecastTone: 'amber' },
+  { label: 'Net enterprise Savings', goal: '$8M', ytd: '$4M', forecast: '$6M', forecastTone: 'amber' },
 ]
 
 const operationalRows = [
-  { label: 'HHV completion rate of suppressed members', goal: '10%', ytd: '16%', ytdTone: 'amber' },
-  { label: 'Gross HCC capture for visits happening naturally (or control)', goal: '15%', ytd: '14%', ytdTone: 'green' },
-  { label: 'Estimated HCC $ capture/suppressed HHV', goal: '<$180', ytd: '$155', ytdTone: 'green' },
-  { label: '% of members modeler confidently suppresses at 5% error rate', goal: '15%', ytd: '19%', ytdTone: 'green' },
-  { label: 'Precision of top 10%', goal: '95%', ytd: '97%', ytdTone: 'green' },
+  { label: 'HHV completion rate of suppressed members', goal: '11%', ytd: '15%', ytdTone: 'amber' },
+  { label: 'Gross HCC capture for visits happening naturally (or control)', goal: '14%', ytd: '12%', ytdTone: 'green' },
+  { label: 'Estimated HCC $ capture/suppressed HHV', goal: '<$165', ytd: '$142', ytdTone: 'green' },
+  { label: '% of members modeler confidently suppresses at 5% error rate', goal: '14%', ytd: '17%', ytdTone: 'green' },
+  { label: 'Precision of top 10%', goal: '93%', ytd: '95%', ytdTone: 'green' },
 ]
 
 const completionChart = {
@@ -27,7 +27,7 @@ const completionChart = {
   max: 50,
   interval: 10,
   legend: {
-    control: 'Control group (targeted by Signify)',
+    control: 'Control group (targeted by Optum)',
     treatment: 'Treatment group (actively suppressed)',
   },
   calloutLayouts: [
@@ -35,25 +35,25 @@ const completionChart = {
     { start: '31%', end: '61%', bubble: '46%' },
   ],
   groups: [
-    { label: 'Members suppressed - Low Risk', control: 14.19, treatment: 7.04, delta: -7.15 },
-    { label: 'Members suppressed - High Risk', control: 11.7, treatment: 10.13, delta: -1.57 },
+    { label: 'Members suppressed - Low Risk', control: 13.4, treatment: 6.9, delta: -6.5 },
+    { label: 'Members suppressed - High Risk', control: 10.8, treatment: 9.92, delta: -0.88 },
   ],
 }
 
 const monitoringChart = {
   copyTitle: 'Gross HCC capture rate (%)',
   copySubtitle: 'during completed HHV visits',
-  noteTitle: 'Avg 13% per saved visit',
-  noteSubtitle: '(+15% optimized rate)',
+  noteTitle: 'Avg 11% per saved visit',
+  noteSubtitle: '(+12% optimized rate)',
   months: ['1 Jan', '1 Feb', '1 Mar', '1 Apr', '1 May', '1 Jun', '1 Jul', '1 Aug', '1 Sep', '1 Oct', '1 Nov', '1 Dec'],
   max: 80,
   interval: 20,
-  expectedLowLabel: 9,
-  expectedHighLabel: 59,
-  expectedLow: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
-  expectedHigh: [59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59],
-  treatmentLow: [6, 8, 7, 9, 8, 8, 9, 7, 9, 8, 8, 9],
-  treatmentHigh: [60, 43, 45, 46, 49, 47, 50, 51, 49, 50, 28, 0],
+  expectedLowLabel: 8,
+  expectedHighLabel: 56,
+  expectedLow: [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+  expectedHigh: [56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56],
+  treatmentLow: [5, 6, 6, 7, 7, 7, 8, 7, 8, 7, 7, 8],
+  treatmentHigh: [56, 42, 44, 45, 47, 46, 49, 48, 49, 38, 22, 0],
 }
 
 const chartPalette = {
@@ -109,11 +109,11 @@ function YTDLegend({ items, className = '' }) {
   )
 }
 
-const SignifyHHVYTDSuppressionStatsPage = () => {
+const OptumIOAYTDSuppressionStatsPage = () => {
   return (
     <ProductPageLayout>
-      <ProductPageStrip title="Signify HHV" subtitle="YTD suppression Stats" />
-      <section className="ri-feature-body ri-signify-hhv-ytd-page">
+      <ProductPageStrip title="Optum IOA" subtitle="YTD suppression Stats" />
+      <section className="ri-feature-body ri-optum-ioa-ytd-page">
         <div className="ri-ytd-table-grid">
           <article className="ri-ytd-card">
             <h4 className="ri-ytd-card-title">Financial metrics EOY projections</h4>
@@ -322,4 +322,4 @@ const SignifyHHVYTDSuppressionStatsPage = () => {
   )
 }
 
-export default SignifyHHVYTDSuppressionStatsPage
+export default OptumIOAYTDSuppressionStatsPage

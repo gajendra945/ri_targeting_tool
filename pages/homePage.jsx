@@ -1,6 +1,6 @@
 import React from 'react'
-import { ProductPageLayout } from '../component/product-page-layout'
-import { TopFilterRow } from '../component/product-page-strip'
+import { ProductPageLayout } from '../component/productPageLayout'
+import { TopFilterRow } from '../component/productPageStrip'
 
 const summaryMetrics = [
   { id: 'ytd-suppr', label: 'YTD\nsuppressions', value: '600k', tone: 'blue' },

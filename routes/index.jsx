@@ -2,15 +2,15 @@ import React from 'react'
 import { Navigate, Routes, Route } from 'react-router-dom'
 import ProtectedRoute from '../../../common/components/auth/ProtectedRoute.jsx'
 import '../styles/global.css'
-import Home from '../pages/Home.jsx'
-import NotFound from '../pages/NotFound.jsx'
+import Home from '../pages/homePage.jsx'
+import NotFound from '../pages/notFoundPage.jsx'
 import { riTargetingToolRoutes } from './constants.js'
-import SignifyHHVYTDSuppressionStatsPage from '../pages/signify_hhv/ytd-suppression-stats.jsx'
-import SignifyHHVModelPerformancePage from '../pages/signify_hhv/model-performance.jsx'
-import SignifyHHVFutureSuppressionsPage from '../pages/signify_hhv/future-suppressions.jsx'
-import OptumIOAYTDSuppressionStatsPage from '../pages/optum_ioa/ytd-suppression-stats.jsx'
-import OptumIOAModelPerformancePage from '../pages/optum_ioa/model-performance.jsx'
-import OptumIOAFutureSuppressionsPage from '../pages/optum_ioa/future-suppressions.jsx'
+import SignifyHHVYTDSuppressionStatsPage from '../pages/signifyHHV/ytdSuppressionStats.jsx'
+import SignifyHHVModelPerformancePage from '../pages/signifyHHV/modelPerformance.jsx'
+import SignifyHHVFutureSuppressionsPage from '../pages/signifyHHV/futureSuppressions.jsx'
+import OptumIOAYTDSuppressionStatsPage from '../pages/optumIOA/ytdSuppressionStats.jsx'
+import OptumIOAModelPerformancePage from '../pages/optumIOA/modelPerformance.jsx'
+import OptumIOAFutureSuppressionsPage from '../pages/optumIOA/futureSuppressions.jsx'
 
 export const RiTargetingToolRoutes = () => {
   return (
@@ -24,9 +24,9 @@ export const RiTargetingToolRoutes = () => {
           </ProtectedRoute>
         }
       />
-      <Route path="signify_hhv" element={<Navigate to={riTargetingToolRoutes.signifyHHV.ytdSuppressionStats} replace />} />
+      <Route path="signify-hhv" element={<Navigate to={riTargetingToolRoutes.signifyHHV.ytdSuppressionStats} replace />} />
       <Route
-        path="signify_hhv/ytd-suppression-stats"
+        path="signify-hhv/ytd-suppression-stats"
         element={
           <ProtectedRoute>
             <SignifyHHVYTDSuppressionStatsPage />
@@ -34,7 +34,7 @@ export const RiTargetingToolRoutes = () => {
         }
       />
       <Route
-        path="signify_hhv/model-performance"
+        path="signify-hhv/model-performance"
         element={
           <ProtectedRoute>
             <SignifyHHVModelPerformancePage />
@@ -42,16 +42,16 @@ export const RiTargetingToolRoutes = () => {
         }
       />
       <Route
-        path="signify_hhv/future-suppressions"
+        path="signify-hhv/future-suppressions"
         element={
           <ProtectedRoute>
             <SignifyHHVFutureSuppressionsPage />
           </ProtectedRoute>
         }
       />
-      <Route path="optum_ioa" element={<Navigate to={riTargetingToolRoutes.optumIOA.ytdSuppressionStats} replace />} />
+      <Route path="optum-ioa" element={<Navigate to={riTargetingToolRoutes.optumIOA.ytdSuppressionStats} replace />} />
       <Route
-        path="optum_ioa/ytd-suppression-stats"
+        path="optum-ioa/ytd-suppression-stats"
         element={
           <ProtectedRoute>
             <OptumIOAYTDSuppressionStatsPage />
@@ -59,7 +59,7 @@ export const RiTargetingToolRoutes = () => {
         }
       />
       <Route
-        path="optum_ioa/model-performance"
+        path="optum-ioa/model-performance"
         element={
           <ProtectedRoute>
             <OptumIOAModelPerformancePage />
@@ -67,7 +67,7 @@ export const RiTargetingToolRoutes = () => {
         }
       />
       <Route
-        path="optum_ioa/future-suppressions"
+        path="optum-ioa/future-suppressions"
         element={
           <ProtectedRoute>
             <OptumIOAFutureSuppressionsPage />

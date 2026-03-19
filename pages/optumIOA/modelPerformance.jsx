@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { ProductPageLayout } from '../../component/product-page-layout'
-import { ProductPageStrip } from '../../component/product-page-strip'
-import '../../styles/ri_targeting_tool/signify_hhv/model-performance.css'
+import { ProductPageLayout } from '../../component/productPageLayout'
+import { ProductPageStrip } from '../../component/productPageStrip'
+import '../../styles/riTargetingTool/optumIOA/modelPerformance.css'
 
 const palette = {
   text: '#2e3a49',
@@ -98,21 +98,21 @@ const modelPerformanceData = {
         key: 'expectedRiValue',
         name: 'Expected avg RI value per HHV',
         colorToken: 'expected',
-        data: [100, 135, 150, 190, 230, 300, 330, 420, 440, 500, 480],
+        data: [95, 128, 146, 185, 225, 290, 320, 395, 420, 480, 465],
         smooth: 0.18,
       },
       {
         key: 'aetnaCost',
         name: 'Reference line - HHV cost to Aetna',
         colorToken: 'aetnaCost',
-        data: [360, 360, 360, 360, 360, 360, 360, 360, 360, 360, 360],
+        data: [340, 340, 340, 340, 340, 340, 340, 340, 340, 340, 340],
         dash: true,
       },
       {
         key: 'enterpriseCost',
         name: 'Reference line - HHV cost to Enterprise',
         colorToken: 'enterpriseCost',
-        data: [125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125],
+        data: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120],
         dash: true,
       },
     ],
@@ -138,7 +138,7 @@ const modelPerformanceData = {
         name: 'Aetna net savings - October',
         colorToken: 'aetnaNetCurrent',
         axis: 'left',
-        data: [0, 37, 38.7, 46.6, 45.0, 44.2, null, null, null, null, null],
+        data: [0, 31, 35.4, 42.8, 43.6, 41.4, null, null, null, null, null],
         smooth: 0.2,
         showSymbol: true,
       },
@@ -147,7 +147,7 @@ const modelPerformanceData = {
         name: 'Enterprise net savings - October',
         colorToken: 'enterpriseNetCurrent',
         axis: 'left',
-        data: [0, 6.8, 8.1, 17.2, 17.2, 12.0, 6.0, null, null, null, null],
+        data: [0, 5.1, 7.2, 15.4, 15.7, 11.1, 5.9, null, null, null, null],
         smooth: 0.2,
         showSymbol: true,
       },
@@ -156,7 +156,7 @@ const modelPerformanceData = {
         name: 'Aetna net savings - September',
         colorToken: 'aetnaNetPrevious',
         axis: 'left',
-        data: [0, 35, 36.5, 44.6, 45.7, 45.3, null, null, null, null, null],
+        data: [0, 29.4, 33.2, 40.9, 41.8, 40.1, null, null, null, null, null],
         smooth: 0.2,
       },
       {
@@ -164,7 +164,7 @@ const modelPerformanceData = {
         name: 'Enterprise net savings - September',
         colorToken: 'enterpriseNetPrevious',
         axis: 'left',
-        data: [0, 5.9, 7.3, 16.8, 17.4, 13.2, 7.1, null, null, null, null],
+        data: [0, 4.2, 6.3, 13.9, 14.6, 10.8, 5.4, null, null, null, null],
         smooth: 0.2,
       },
       {
@@ -172,7 +172,7 @@ const modelPerformanceData = {
         name: 'Error rate - October',
         colorToken: 'errorCurrent',
         axis: 'right',
-        data: [2.1, 3.0, 3.7, 4.2, 5.3, 6.9, 8.5, null, null, null, null],
+        data: [2.4, 3.2, 4.1, 4.8, 5.7, 6.8, 8.1, null, null, null, null],
         dash: true,
       },
       {
@@ -180,14 +180,14 @@ const modelPerformanceData = {
         name: 'Error rate - September',
         colorToken: 'errorPrevious',
         axis: 'right',
-        data: [1.6, 2.4, 3.1, 4.0, 5.1, 6.2, 7.8, null, null, null, null],
+        data: [1.8, 2.8, 3.6, 4.3, 5.1, 6.1, 7.4, null, null, null, null],
         dash: true,
       },
     ],
   },
 }
 
-function SignifyHHVModelPerformanceContent({ data }) {
+function OptumIOAModelPerformanceContent({ data }) {
   const ranking = data?.rankingChart ?? {}
   const monthly = data?.monthlyChart ?? {}
   const rankingData = useMemo(() => createChartData(ranking.categories, ranking.series), [ranking])
@@ -323,15 +323,15 @@ function SignifyHHVModelPerformanceContent({ data }) {
   )
 }
 
-const SignifyHHVModelPerformancePage = () => {
+const OptumIOAModelPerformancePage = () => {
   return (
     <ProductPageLayout>
-      <ProductPageStrip title="Signify HHV" subtitle="Model Performance" />
-      <section className="ri-feature-body ri-signify-hhv-model-page">
-        <SignifyHHVModelPerformanceContent data={modelPerformanceData} />
+      <ProductPageStrip title="Optum IOA" subtitle="Model Performance" />
+      <section className="ri-feature-body ri-optum-ioa-model-page">
+        <OptumIOAModelPerformanceContent data={modelPerformanceData} />
       </section>
     </ProductPageLayout>
   )
 }
 
-export default SignifyHHVModelPerformancePage
+export default OptumIOAModelPerformancePage

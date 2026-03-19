@@ -1,8 +1,8 @@
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { riTargetingToolRoutes } from '../routes/constants'
-import { MainPageLayout } from './main-page-layout'
-import '../styles/ri_targeting_tool/home.css'
+import { MainPageLayout } from './mainPageLayout'
+import '../styles/riTargetingTool/homePage.css'
 
 const OverviewIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
