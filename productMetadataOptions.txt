@@ -1,17 +1,64 @@
-[
-  {
-    name: 'RI Targeting Tool',
-    iconName: 'Target',
-    description: 'Analyze Signify and Optum RI targeting performance with an intuitive interface for tracking suppression metrics, model performance, and future suppression planning.'
-  },
-  {
-    name: 'RI Targeting Tool',
-    iconName: 'BarChart3',
-    description: 'Unified RI targeting workspace for monitoring suppression performance, reviewing model outcomes, and planning future suppression decisions across Signify and Optum.'
-  },
-  {
-    name: 'RI Targeting Tool',
-    iconName: 'LayoutDashboard',
-    description: 'Centralized RI targeting dashboard for comparing Signify and Optum results, exploring suppression insights, and supporting forward-looking suppression strategy.'
-  }
-]
+Story Name: Finalize RI Targeting Dashboard API Contract
+Points: 1
+Description: Define the request and response contract for the Overview dashboard in the shared backend so frontend and backend are aligned before implementation starts.
+Acceptance Criteria:
+API method and endpoint path are agreed.
+Supported filters are documented: n2pReturn, market, state, ivlGrpSnp, contract, pbp.
+Response structure for KPI cards and Top Members is documented.
+Standard error response format is documented.
+Story Name: Create RI Targeting Module in Shared Backend
+Points: 2
+Description: Create the initial backend structure for RI Targeting inside the shared backend, including route, controller, service, and validation placeholders.
+Acceptance Criteria:
+RI Targeting module or namespace exists in the shared backend.
+Dashboard route is registered and reachable in dev.
+Request validation is added for incoming filter params.
+Stub response can be returned from the endpoint.
+Story Name: Configure BigQuery Access for RI Targeting
+Points: 2
+Description: Set up secure BigQuery connectivity in the shared backend for RI Targeting dashboard data retrieval.
+Acceptance Criteria:
+Required environment/config values are added.
+BigQuery client can be initialized in non-prod.
+Connection failures are handled gracefully.
+No credentials or secrets are exposed in code or API responses.
+Story Name: Build Raw BigQuery Query for Dashboard Data
+Points: 3
+Description: Implement the BigQuery query or data access layer that pulls the raw dataset required for the Overview dashboard.
+Acceptance Criteria:
+Query runs successfully in non-prod.
+Returned dataset contains fields needed for KPI cards and Top Members.
+Default behavior is defined when filters are not provided.
+Query output is validated against at least one sample case.
+Story Name: Implement Dashboard Filter and Transformation Logic
+Points: 3
+Description: Apply business filtering and transform the raw BigQuery result into the API response expected by the frontend dashboard.
+Acceptance Criteria:
+Backend supports all agreed dashboard filters.
+KPI values are derived from real data.
+Top Members response matches the agreed schema.
+Empty and partial data scenarios are handled without API failure.
+Story Name: Align Frontend Filters with Shared Backend Contract
+Points: 1
+Description: Update frontend filter values and query param formatting so the dashboard sends only supported values to the shared backend API.
+Acceptance Criteria:
+Frontend filter values match backend-supported values.
+Default filter state is aligned with backend expectations.
+Query param names and formats match the agreed contract.
+Unsupported placeholder values are removed or mapped.
+Story Name: Connect Overview Dashboard to Live API
+Points: 2
+Description: Replace mock data usage in the Overview dashboard and connect KPI cards and Top Members to the live shared backend endpoint.
+Acceptance Criteria:
+KPI cards load from live API data.
+Top Members table loads from live API data.
+API base URL is environment-based.
+Mock fallback is removed or disabled for live environments.
+Story Name: Add Live Data States and Validate End-to-End
+Points: 1
+Description: Add loading, error, and no-data handling for the live dashboard and complete a basic end-to-end validation with sample filters.
+Acceptance Criteria:
+Loading state is shown while dashboard data is being fetched.
+Error state is shown when API call fails.
+No-data state is shown when API returns empty results.
+At least one end-to-end validation run is completed and documented.
