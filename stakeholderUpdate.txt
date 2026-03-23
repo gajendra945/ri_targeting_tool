@@ -1,144 +1,64 @@
-RI Targeting Tool
-Stakeholder Meeting Notes
-Prepared on March 13, 2026
-
-1. Current Progress Summary
-
-- We have completed the main product layout for the RI Targeting Tool.
-- We now have a working sidebar navigation with product sections for:
-  - Overview
-  - Signify HHV
-  - Optum IOA
-- We created separate feature pages for both Signify HHV and Optum IOA:
-  - YTD suppression stats
-  - Model Performance
-  - Future suppressions
-- The home page now shows only the two main summary cards:
-  - Signify HHV
-  - Optum IOA
-- The overall page structure, spacing, sidebar alignment, and top filter strip have been refined to match the design direction shared in the screenshots.
-
-2. Functional Work Completed
-
-- Built the main page shell and shared layout structure.
-- Built a reusable sidebar with active state based on the current route.
-- Created route structure and folder structure for:
-  - `signifyHHV`
-  - `optumIOA`
-- Added Overview page with the top filter strip.
-- Added shared page header/filter strip for feature pages.
-- Added Signify HHV summary KPI card section.
-- Added Optum IOA summary KPI card section.
-- Added YTD suppression stats pages for both products.
-- Updated the sidebar so that when a user opens a feature page:
-  - the correct parent section is selected
-  - the selected sub-module is selected
-  - Overview is no longer incorrectly active
-- Prepared the code structure for future Model Performance and Future suppressions work.
-
-3. What Is Dynamic Already
-
-- Sidebar selection is dynamic and route-driven.
-- Parent and child navigation states change automatically based on the page URL.
-- The top filter strip is reusable across pages.
-- Overview KPI cards are data-driven from arrays, not hardcoded block by block.
-- KPI value colors are dynamic:
-  - positive HCC capture values show in green
-  - negative trend values can show in red
-  - value-per-visit uses green styling
-  - estimated EOY savings uses dark yellow styling
-- YTD tables are data-driven from row arrays/objects.
-- Highlight colors in YTD tables are dynamic by row type:
-  - green
-  - yellow
-- The same page pattern is reused for both Signify HHV and Optum IOA.
-
-4. UI Refinement Work Completed
-
-- Sidebar background and spacing improved.
-- Sidebar text hierarchy improved for:
-  - main module names
-  - sub-module items
-- Sidebar icon placement and alignment improved.
-- Main content spacing improved.
-- Overview filter strip was changed from a card-style block to a plain page-level strip.
-- Summary cards were updated to better match the provided screenshots.
-- YTD tables were visually aligned to the reference design:
-  - table title row
-  - blue column header row
-  - gray metric column
-  - green/yellow value highlights
-  - balanced table height and spacing
-- YTD table styling was moved into dedicated page CSS files for cleaner separation.
-
-5. What Is Ready for Demo
-
-- Overview page layout
-- Shared sidebar navigation
-- Signify HHV summary section
-- Optum IOA summary section
-- Signify HHV YTD suppression stats page
-- Optum IOA YTD suppression stats page
-- Shared feature-page header/filter strip
-
-6. What Is Not Final Yet
-
-- Top dropdown filters are currently UI placeholders only.
-- Dropdown selections are not yet connected to live data or filtering logic.
-- YTD chart sections are not implemented yet.
-- Model Performance pages are scaffold pages and need feature development.
-- Future suppressions pages are scaffold pages and need feature development.
-- Backend/API integration for live data is not implemented yet.
-
-7. Top Dropdown Filters: Confirmed Items and Open Questions
-
-- Confirmed:
-  - Filters should work globally across the product.
-  - Filter selections should stay the same when moving from Overview to feature pages.
-- Open questions:
-  - What should be the option values for each filter: N2P/return, Market, State, IVL/GRP or IVL/GRP/SNP, Contract, and PBP?
-
-8. Next Phase Plan
-
-- Implement chart data and chart visuals for the YTD suppression stats pages.
-- Start feature development for Model Performance pages.
-- Define the actual behavior for the top dropdown filters.
-- Connect dropdown selections to real filtering logic.
-- Replace placeholder/static data with live or managed product data.
-- Finalize page-level content for Future suppressions.
-- Add validation and edge-case handling for empty or partial data states.
-
-9. Recommended Next Phase Scope
-
-- Phase 2A:
-  - finalize dropdown requirements
-  - connect top filters to shared page state
-  - define data contracts
-- Phase 2B:
-  - build YTD charts using real chart data
-  - complete Signify HHV and Optum IOA chart sections
-- Phase 2C:
-  - build Model Performance feature pages
-  - add data tables, charts, and business metrics
-- Phase 2D:
-  - build Future suppressions content
-  - refine UX and cross-page consistency
-
-10. Stakeholder Talking Points
-
-- The base product structure is now in place.
-- The navigation and shared layout are stable.
-- The YTD suppression stats pages have meaningful progress and are ready for the next data phase.
-- The current build already demonstrates the expected product direction.
-- The next important step is not visual cleanup; it is functional data integration and feature completion.
-- The biggest open dependency is clarification of dropdown behavior and chart data requirements.
-
-11. Short Meeting Summary
-
-- Good progress has been made on the product shell, navigation, overview, and YTD table pages.
-- Several core parts are already dynamic and reusable.
-- The next phase should focus on:
-  - dropdown definition
-  - YTD chart data
-  - Model Performance development
-  - live data integration
+Story Name: Finalize RI Targeting Dashboard API Contract
+Points: 1
+Description: Define the request and response contract for the Overview dashboard in the shared backend so frontend and backend are aligned before implementation starts.
+Acceptance Criteria:
+API method and endpoint path are agreed.
+Supported filters are documented: n2pReturn, market, state, ivlGrpSnp, contract, pbp.
+Response structure for KPI cards and Top Members is documented.
+Standard error response format is documented.
+Story Name: Create RI Targeting Module in Shared Backend
+Points: 2
+Description: Create the initial backend structure for RI Targeting inside the shared backend, including route, controller, service, and validation placeholders.
+Acceptance Criteria:
+RI Targeting module or namespace exists in the shared backend.
+Dashboard route is registered and reachable in dev.
+Request validation is added for incoming filter params.
+Stub response can be returned from the endpoint.
+Story Name: Configure BigQuery Access for RI Targeting
+Points: 2
+Description: Set up secure BigQuery connectivity in the shared backend for RI Targeting dashboard data retrieval.
+Acceptance Criteria:
+Required environment/config values are added.
+BigQuery client can be initialized in non-prod.
+Connection failures are handled gracefully.
+No credentials or secrets are exposed in code or API responses.
+Story Name: Build Raw BigQuery Query for Dashboard Data
+Points: 3
+Description: Implement the BigQuery query or data access layer that pulls the raw dataset required for the Overview dashboard.
+Acceptance Criteria:
+Query runs successfully in non-prod.
+Returned dataset contains fields needed for KPI cards and Top Members.
+Default behavior is defined when filters are not provided.
+Query output is validated against at least one sample case.
+Story Name: Implement Dashboard Filter and Transformation Logic
+Points: 3
+Description: Apply business filtering and transform the raw BigQuery result into the API response expected by the frontend dashboard.
+Acceptance Criteria:
+Backend supports all agreed dashboard filters.
+KPI values are derived from real data.
+Top Members response matches the agreed schema.
+Empty and partial data scenarios are handled without API failure.
+Story Name: Align Frontend Filters with Shared Backend Contract
+Points: 1
+Description: Update frontend filter values and query param formatting so the dashboard sends only supported values to the shared backend API.
+Acceptance Criteria:
+Frontend filter values match backend-supported values.
+Default filter state is aligned with backend expectations.
+Query param names and formats match the agreed contract.
+Unsupported placeholder values are removed or mapped.
+Story Name: Connect Overview Dashboard to Live API
+Points: 2
+Description: Replace mock data usage in the Overview dashboard and connect KPI cards and Top Members to the live shared backend endpoint.
+Acceptance Criteria:
+KPI cards load from live API data.
+Top Members table loads from live API data.
+API base URL is environment-based.
+Mock fallback is removed or disabled for live environments.
+Story Name: Add Live Data States and Validate End-to-End
+Points: 1
+Description: Add loading, error, and no-data handling for the live dashboard and complete a basic end-to-end validation with sample filters.
+Acceptance Criteria:
+Loading state is shown while dashboard data is being fetched.
+Error state is shown when API call fails.
+No-data state is shown when API returns empty results.
+At least one end-to-end validation run is completed and documented.
